@@ -5,11 +5,17 @@ pip install pyaudio
 pip install SpeechRecognition
 pip install gTTs"""
 
+#importing the modules
 import os
+import sys
 import time
 import playsound
 import speech_recognition as sr
 from gtts import gTTS #google text to speach module
+
+sys.path.insert(0, r'\Python_Projects\Virtual assistant')
+from weather_data import weather
+
 
 #defining the function for listening through the Mic
 #the text based might be removed after being repaced by the UI
@@ -41,4 +47,6 @@ def get_inaudio():
 
 def speak(text):
     pass
+
+
 
