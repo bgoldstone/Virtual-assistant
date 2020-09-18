@@ -19,11 +19,12 @@ root.minsize(720,480)
 root.geometry(size)
 #setting up the talk button
 img = tk.PhotoImage(file = path)
-talk_b = tk.Button(root , command = get_inaudio())
+talk_b = tk.Button(root , command = lambda:get_inaudio())
 talk_b.config( image = img, 
                width=button_width, 
                height=button_height )
 talk_b.pack()
+
 
 
 #displaying the window

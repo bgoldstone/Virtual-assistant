@@ -13,8 +13,11 @@ import playsound
 import speech_recognition as sr
 from gtts import gTTS #google text to speach module
 
-sys.path.insert(0, r'\Python_Projects\Virtual assistant')
-from weather_data import weather
+languages = {
+    "en":"GB",
+    "fr":"FR",
+    "es":"ES"
+},
 
 
 #defining the function for listening through the Mic
@@ -28,15 +31,8 @@ def get_inaudio():
         said = ""
 
         try:
-            if language == "en":
-                said = r.recognize_google(audio, language="en-GB")
-                print(f"You said: {said}")
-            elif language == "fr":
-                said = r.recognize_google(audio, language="fr-FR")
-                print(f"You said: {said}")
-            elif language == "es":
-                said = r.recognize_google(audio, language="es-ES")
-                print(f"You said: {said}")
+            if language not in languages:
+                said = r.recognize_google(audio, language=f"{language}-{languages[0][language]}")
             else:
                 print("Sorry unsupported language yet.")
 
@@ -49,6 +45,7 @@ def speak(text):
     pass
 
 
-
+"""sys.path.insert(0, r'\Python_Projects\Virtual assistant')
+from weather_data import weather"""
 
 
