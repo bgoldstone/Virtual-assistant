@@ -16,7 +16,7 @@ try:
     response = requests.get(api_url)
     print("[Success]Connection has been established")
     data = response.json()
-
+    
     to_find = "weather"
     def get_weather(tofind):
         if type(data[tofind]) == list:
