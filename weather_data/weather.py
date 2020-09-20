@@ -8,29 +8,32 @@ from pprint import pprint
 import json
 import requests
 
-city = "Paris"
-
 #sending the request to the api and collecting informations
 try:
-    def get_weather():
-        api_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={config.api_key}"
+    def get_weather(city,lang):
+
+        api_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&lang={lang}&units=metric&appid={config.api_key}"
         response = requests.get(api_url)
-        print("[Success]Connection has been established")
+        #print("[Success]Connection has been established")
         data = response.json()
         
         get_weather.to_find = "weather"
+        get_weather.temp = data['main']['temp']
+        #print(get_weather.temp)
         
         if type(data[get_weather.to_find]) == list:
-            weather_data = data["weather"]
+            weather_data = data[get_weather.to_find]
             for i in range(len(weather_data)):
-                get_weather.final_data = weather_data[i]["main"]
+                get_weather.final_data = weather_data[i]["description"]
                 #print(get_weather.final_data)
                 break
 
-        return get_weather.final_data
+        return get_weather.final_data,get_weather.temp
 
 except:
     print("An anonymous error occured!")
+
+
 
 
 
