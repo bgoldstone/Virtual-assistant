@@ -31,7 +31,7 @@ try:
         return get_weather.final_data,get_weather.temp
 
 except:
-    print("An anonymous error occured!")
+    print("An unknown error occured!")
 
 
 
