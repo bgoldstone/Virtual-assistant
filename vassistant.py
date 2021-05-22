@@ -12,7 +12,12 @@ import time
 import playsound
 import speech_recognition as sr
 from gtts import gTTS #google text to speach module
-from Speech import sentences,weather_patterns
+from Speech import sentences,weather_patterns, greet_patterns, greetings
+import datetime
+import random
+
+
+
 
 languages = {
     "en":"GB",
@@ -76,10 +81,50 @@ class Assistant:
             else:
                 continue
 
+    def greet(self):
+        choice_list = ["1","2","3","4","6"]
+        time = datetime.datetime.now().hour
+        for pattern in greet_patterns:
+            if pattern in get_inaudio.said:
+                if language == 'fr':
+                    speak(greetings[language][f"{random.randint(1,3)}"])
+                elif language == 'en':
+                    if time >=12:
+                        speak(greetings[language]["pm"][f"{random.randint(1,5)}"])
+                        if time.hour > 18:
+                            speak(greeting[language]["pm"][f"{random.choice(choice_list)}"])
+                    elif time < 12:
+                        speak(greetings[language]["am"][f"{random.randint(1,5)}"])
+                        
+
+
+
+
+    def run(self):
+        print("[INFO]:Running.")
+        get_inaudio(language)
+        #print(get_inaudio.said.split(" "))
+        for word in get_inaudio.said.split(" "):
+            if word in greet_patterns:
+                self.greet()
+                speak(sentences[language]['sentence1'])
+            elif word in weather_patterns:
+                self.run_weathercmd()
+                speak(sentences[language]['sentence6'])
+        #recalling the function so it reruns everything
+        self.run()
+              
+                
+
+                
+                
+         
+        
+
 
 assistant = Assistant()
-get_inaudio(language)
-assistant.run_weathercmd()
+assistant.run()
+
 
 
 
