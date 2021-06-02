@@ -48,7 +48,7 @@ def get_inaudio(language):
         except:
             get_inaudio(language)
 
-    return get_inaudio.said #use this variable containing the input data
+    return get_inaudio.said.lower #use this variable containing the input data
 
 
 def speak(text):
@@ -92,16 +92,24 @@ class Assistant:
                     if time >=12:
                         speak(greetings[language]["pm"][f"{random.randint(1,5)}"])
                         if time.hour > 18:
-                            speak(greeting[language]["pm"][f"{random.choice(choice_list)}"])
+                            speak(greetings[language]["pm"][f"{random.choice(choice_list)}"])
                     elif time < 12:
                         speak(greetings[language]["am"][f"{random.randint(1,5)}"])
-                        
 
-
+   #function to open an executable using voice command if the .exe file exists
+    def open_app(self):
+        target_app = get_inaudio.said.split(" ")[1]
+        os.popen(f"start {target_app}.exe")
+    #function to kill a task using voice command if the .exe file is running
+    def kill_app(self):
+        target_app = get_inaudio.said.split(" ")[1]
+        os.popen(f"TASKKILL /F /IM {target_app}.exe /T")
 
 
     def run(self):
-        print("[INFO]:Running.")
+        run = False
+        if run == False:
+            print("[INFO]:Running.")
         get_inaudio(language)
         #print(get_inaudio.said.split(" "))
         for word in get_inaudio.said.split(" "):
@@ -111,7 +119,14 @@ class Assistant:
             elif word in weather_patterns:
                 self.run_weathercmd()
                 speak(sentences[language]['sentence6'])
+
+            elif word == 'open':
+                self.open_app()
+
+            elif word == "shutdown":
+                self.kill_app()
         #recalling the function so it reruns everything
+        run == True
         self.run()
               
                 
