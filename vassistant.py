@@ -12,9 +12,11 @@ import time
 import playsound
 import speech_recognition as sr
 from gtts import gTTS #google text to speach module
-from Speech import sentences,weather_patterns, greet_patterns, greetings
+from Speech import sentences,weather_patterns, greet_patterns, greetings, ask_time
 import datetime
 import random
+import datetime
+import webbrowser
 
 
 
@@ -25,10 +27,13 @@ languages = {
     "es":"ES"
 },
 supported_languages = ["fr","en","es"]
+
+#supported web applications
+supp_web_app = ['youtube', 'gmail', 'twitter', 'instagram', 'facebook']
 language = input("Please enter the language you want(fr/en/es): ")
 
 #defining the function for listening through the Mic
-#the text based might be removed after being repaced by the UI
+#the text based might be removed after being repaced by the UI...some day
 def get_inaudio(language):
     #print(f"You have Chosen {language}-{languages[0][language]}")
     r = sr.Recognizer()
@@ -45,8 +50,14 @@ def get_inaudio(language):
             else:
                 print("Sorry unsupported language yet.")
 
-        except:
+        #automatically recall the get_inaudio() if any problem occurs
+        except Exception as e:
             get_inaudio(language)
+
+            #getting the logs fo what happened or went wrong
+            with open('logs.txt', 'a') as logs:
+                logs.write(f'[{datetime.datetime.now()}]: {e}\n')
+
 
     return get_inaudio.said.lower #use this variable containing the input data
 
@@ -99,11 +110,29 @@ class Assistant:
    #function to open an executable using voice command if the .exe file exists
     def open_app(self):
         target_app = get_inaudio.said.split(" ")[1]
-        os.popen(f"start {target_app}.exe")
+        try:
+            if target_app in supp_web_app:
+                webbrowser.open_new_tab(f"https://www.{target_app}.com")
+
+            else:
+                os.popen(f"start {target_app}.exe")
+        except Exception as e:
+            print('Something went wrong')
+
+            with open('logs.txt', 'a') as logs:
+                logs.write(f'[{datetime.datetime.now()}]: {e}\n')
     #function to kill a task using voice command if the .exe file is running
     def kill_app(self):
-        target_app = get_inaudio.said.split(" ")[1]
-        os.popen(f"TASKKILL /F /IM {target_app}.exe /T")
+        try:
+            target_app = get_inaudio.said.split(" ")[1]
+            os.popen(f"TASKKILL /F /IM {target_app}.exe /T")
+        except Exception as e:
+            with open('logs.txt', 'a') as logs:
+                logs.write(f'[{datetime.datetime.now()}]: {e}\n')
+
+    def time(self):
+        time = datetime.datetime.now().strftime("%H:%M:%S")
+        speak(time)
 
 
     def run(self):
@@ -111,7 +140,6 @@ class Assistant:
         if run == False:
             print("[INFO]:Running.")
         get_inaudio(language)
-        #print(get_inaudio.said.split(" "))
         for word in get_inaudio.said.split(" "):
             if word in greet_patterns:
                 self.greet()
@@ -125,6 +153,9 @@ class Assistant:
 
             elif word == "shutdown":
                 self.kill_app()
+
+            elif word in ask_time:
+                self.time()
         #recalling the function so it reruns everything
         run == True
         self.run()
@@ -136,9 +167,9 @@ class Assistant:
          
         
 
-
-assistant = Assistant()
-assistant.run()
+if __name__=='__main__':
+    assistant = Assistant()
+    assistant.run()
 
 
 

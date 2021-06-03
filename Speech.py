@@ -25,6 +25,7 @@ sentences = {
 
 weather_patterns = ["weather","forecast","météo","prévisions"]
 greet_patterns = ["Hi","Hello","Hey",'Salut','Bonjour']
+ask_time = ["time","heure"]
 greetings = {
     "fr":{
         "1":"Bonjour!",
