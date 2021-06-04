@@ -3,3 +3,4 @@ __pycache__
 .vscode/
 .github/
 voice.mp3
+logs.txt

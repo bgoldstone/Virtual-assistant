@@ -56,7 +56,7 @@ def get_inaudio(language):
 
             #getting the logs fo what happened or went wrong
             with open('logs.txt', 'a') as logs:
-                logs.write(f'[{datetime.datetime.now()}]: {e}\n')
+                logs.write(f'[{datetime.datetime.now()}]: {logs}\n')
 
 
     return get_inaudio.said.lower #use this variable containing the input data
@@ -71,7 +71,7 @@ def speak(text):
         playsound.playsound(filename)
         os.remove(r"resources\voice.mp3")
 
-
+    
 
 #The voice assistant class with the command methods
 class Assistant:
@@ -109,7 +109,8 @@ class Assistant:
 
    #function to open an executable using voice command if the .exe file exists
     def open_app(self):
-        target_app = get_inaudio.said.split(" ")[1]
+        user_input = get_inaudio.said.lower()
+        target_app = user_input.replace("open", "")
         try:
             if target_app in supp_web_app:
                 webbrowser.open_new_tab(f"https://www.{target_app}.com")
@@ -120,44 +121,44 @@ class Assistant:
             print('Something went wrong')
 
             with open('logs.txt', 'a') as logs:
-                logs.write(f'[{datetime.datetime.now()}]: {e}\n')
+                logs.write(f'[{datetime.datetime.now()}]: {logs}\n')
     #function to kill a task using voice command if the .exe file is running
     def kill_app(self):
         try:
-            target_app = get_inaudio.said.split(" ")[1]
+            user_input = get_inaudio.said.lower()
+
+            target_app = user_input.replace("shut down", "")           
             os.popen(f"TASKKILL /F /IM {target_app}.exe /T")
         except Exception as e:
             with open('logs.txt', 'a') as logs:
-                logs.write(f'[{datetime.datetime.now()}]: {e}\n')
+                logs.write(f'[{datetime.datetime.now()}]: {logs}\n')
 
     def time(self):
         time = datetime.datetime.now().strftime("%H:%M:%S")
-        speak(time)
+        speak(f'This is currently: {time}')
 
 
     def run(self):
-        run = False
-        if run == False:
-            print("[INFO]:Running.")
         get_inaudio(language)
-        for word in get_inaudio.said.split(" "):
+        user_input = get_inaudio.said.lower()
+        print(user_input)
+        for word in user_input.split(" "):
             if word in greet_patterns:
                 self.greet()
-                speak(sentences[language]['sentence1'])
+                #speak(sentences[language]['sentence1'])
             elif word in weather_patterns:
                 self.run_weathercmd()
-                speak(sentences[language]['sentence6'])
+                #speak(sentences[language]['sentence6'])
 
             elif word == 'open':
                 self.open_app()
 
-            elif word == "shutdown":
+            elif word == "shut":
                 self.kill_app()
 
             elif word in ask_time:
                 self.time()
         #recalling the function so it reruns everything
-        run == True
         self.run()
               
                 
