@@ -4,4 +4,10 @@ __pycache__
 .github/
 voice.mp3
 logs.txt
+<<<<<<< Updated upstream
 venv
+=======
+venv
+weather_data/__init__.py
+.idea
+>>>>>>> Stashed changes
