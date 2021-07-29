@@ -5,3 +5,4 @@ __pycache__
 voice.mp3
 logs.txt
 venv
+weather_data/__init__.py
