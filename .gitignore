@@ -4,3 +4,4 @@ __pycache__
 .github/
 voice.mp3
 logs.txt
+venv
