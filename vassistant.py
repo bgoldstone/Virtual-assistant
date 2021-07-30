@@ -12,7 +12,7 @@ import time
 import playsound
 import speech_recognition as sr
 from gtts import gTTS  # google text to speech module
-from Speech import sentences, weather_patterns, greet_patterns, greetings, ask_time
+from Speech import sentences, weather_patterns, greet_patterns, greetings, ask_time, quit
 import datetime
 import random
 import datetime
@@ -146,6 +146,8 @@ class Assistant:
         user_input = get_inaudio.said.lower()
         print(user_input)
         for word in user_input.split(" "):
+            if word in quit[language]:
+                return
             if word in greet_patterns:
                 self.greet()
                 # speak(sentences[language]['sentence1'])

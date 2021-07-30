@@ -54,3 +54,7 @@ greetings = {
     },
 
 }
+quit = {
+    'en': ['goodbye', 'bye', 'quit', 'exit', ],
+    'fr': ['au revoir', 'démissionner', 'sortie', ],
+}
