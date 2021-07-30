@@ -5,18 +5,18 @@ pip install pyaudio
 pip install SpeechRecognition
 pip install gTTs"""
 
+import datetime
 # importing the modules
 import os
+import random
 import sys
-import time
+import webbrowser
+
 import playsound
 import speech_recognition as sr
 from gtts import gTTS  # google text to speech module
+
 from Speech import *
-import datetime
-import random
-import datetime
-import webbrowser
 
 languages = {
                 "en": "GB",
@@ -60,7 +60,8 @@ def get_inaudio(language):
 
 
 def speak(text):
-    # the audio file is saved then automatically removed to avoid running into errors and avoid to create a new file each time
+    # the audio file is saved then automatically removed to avoid running into errors and avoid to create a new file
+    # each time
     if language in supported_languages:
         voice = gTTS(text=text, lang=f"{language}-{languages[0][language]}")
         filename = r"resources\voice.mp3"
