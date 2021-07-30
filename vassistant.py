@@ -56,7 +56,7 @@ def get_inaudio(language):
 
             #getting the logs fo what happened or went wrong
             with open('logs.txt', 'a') as logs:
-                logs.write(f'[{datetime.datetime.now()}]: {logs}\n')
+                logs.write(f'[{datetime.datetime.now()}]: {e}\n')
 
 
     return get_inaudio.said.lower #use this variable containing the input data
@@ -121,7 +121,7 @@ class Assistant:
             print('Something went wrong')
 
             with open('logs.txt', 'a') as logs:
-                logs.write(f'[{datetime.datetime.now()}]: {logs}\n')
+                logs.write(f'[{datetime.datetime.now()}]: {e}\n')
     #function to kill a task using voice command if the .exe file is running
     def kill_app(self):
         try:
@@ -131,7 +131,7 @@ class Assistant:
             os.popen(f"TASKKILL /F /IM {target_app}.exe /T")
         except Exception as e:
             with open('logs.txt', 'a') as logs:
-                logs.write(f'[{datetime.datetime.now()}]: {logs}\n')
+                logs.write(f'[{datetime.datetime.now()}]: {e}\n')
 
     def time(self):
         time = datetime.datetime.now().strftime("%H:%M:%S")
