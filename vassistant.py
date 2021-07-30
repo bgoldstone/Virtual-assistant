@@ -12,7 +12,7 @@ import time
 import playsound
 import speech_recognition as sr
 from gtts import gTTS  # google text to speech module
-from Speech import sentences, weather_patterns, greet_patterns, greetings, ask_time, quit
+from Speech import *
 import datetime
 import random
 import datetime
