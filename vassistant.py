@@ -30,7 +30,7 @@ supported_languages = ["fr", "en", "es"]
 supp_web_app = ['youtube', 'gmail', 'twitter', 'instagram', 'facebook']
 language = input("Please enter the language you want(fr/en/es): ")
 
-
+spoken = False
 # defining the function for listening through the Mic
 # the text based might be removed after being replaced by the UI...some day
 def get_inaudio(language):
@@ -61,6 +61,7 @@ def get_inaudio(language):
 
 
 def speak(text):
+    global spoken
     # the audio file is saved then automatically removed to avoid running into errors and avoid to create a new file
     # each time
     if language in supported_languages:
@@ -69,6 +70,7 @@ def speak(text):
         voice.save(filename)
         playsound.playsound(filename)
         os.remove(r"resources\voice.mp3")
+        spoken = True
 
 
 # The voice assistant class with the command methods
@@ -144,6 +146,7 @@ class Assistant:
         speak(f'This is currently: {time}')
 
     def run(self):
+        global spoken
         get_inaudio(language)
 
         # initializes wikipedia module to users language
@@ -151,6 +154,7 @@ class Assistant:
 
         user_input = get_inaudio.said.lower()
         print(user_input)
+        spoken = False
         for word in user_input.split(" "):
             if word in quit[language]:
                 return
@@ -169,13 +173,14 @@ class Assistant:
 
             elif word in ask_time:
                 self.time()
+        if not spoken:
+            try:
+                speak(wikipedia.summary(user_input, sentences=3))
+                self.run()
+            except wikipedia.exceptions.PageError:
+                speak('I did not get any search results from Wikipedia.')
 
-            # searches wikipedia and reads first 3 sentences of article
-            else:
-                try:
-                    speak(wikipedia.summary(wikipedia.search(user_input)[0], sentences=3))
-                except wikipedia.exceptions.PageError:
-                    speak('I did not get any search results from wikipedia.')
+        # searches wikipedia and reads first 3 sentences of article
         # recalling the function so it reruns everything
         self.run()
 
