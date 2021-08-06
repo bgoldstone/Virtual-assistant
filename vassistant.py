@@ -11,6 +11,7 @@ import os
 import random
 import sys
 import webbrowser
+import wikipedia
 
 import playsound
 import speech_recognition as sr
@@ -126,8 +127,8 @@ class Assistant:
 
             with open('logs.txt', 'a') as logs:
                 logs.write(f'[{datetime.datetime.now()}]: {e}\n')
-                
-    #function to kill a task using voice command if the .exe file is running
+
+    # function to kill a task using voice command if the .exe file is running
     def kill_app(self):
         try:
             user_input = get_inaudio.said.lower()
@@ -144,6 +145,10 @@ class Assistant:
 
     def run(self):
         get_inaudio(language)
+
+        # initializes wikipedia module to users language
+        wikipedia.set_lang(language)
+
         user_input = get_inaudio.said.lower()
         print(user_input)
         for word in user_input.split(" "):
@@ -164,6 +169,13 @@ class Assistant:
 
             elif word in ask_time:
                 self.time()
+
+            # searches wikipedia and reads first 3 sentences of article
+            else:
+                try:
+                    speak(wikipedia.summary(wikipedia.search(user_input)[0], sentences=3))
+                except wikipedia.exceptions.PageError:
+                    speak('I did not get any search results from wikipedia.')
         # recalling the function so it reruns everything
         self.run()
 

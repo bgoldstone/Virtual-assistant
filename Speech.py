@@ -7,6 +7,8 @@ sentences = {
         "sentence5": "et la température est environ de ",
         "sentence6": "Que puis-je faire d'autres?",
         "sentence7": "Voulez-vous la météo à Fahrenheit ou Celsius?",
+        "sentence8": "Mes résultats de recherche ont été interrogés ",
+        "sentence9": "Voulez-vous la première, la deuxième ou la troisième option? ",
         "unit": " degré ",
     },
 
@@ -18,6 +20,8 @@ sentences = {
         "sentence5": "and the temperature is about ",
         "sentence6": "What Can I do else for you?",
         "sentence7": "Would you like the weather in Fahrenheit or Celsius?",
+        "sentence8": "My search results have queried ",
+        "sentence9": "Would you like the first, second, or third option? ",
         "unit": " degrees ",
     },
 
